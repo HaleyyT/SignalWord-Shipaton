@@ -1,6 +1,7 @@
 # Submission assets
 
 - [1024×1024 app icon](app-icon-1024.png), copied from the native app asset catalog.
+- [Supporter appearance screenshot](supporter-appearance-original.png): original owner-supplied app screenshot, 728×1446. It shows both themes, Restore purchases and Refresh purchase status. Supplemental gallery material; it does not meet the required 1179×2556 dimensions.
 - Apple review submission screenshot below: supplemental evidence only.
 
 ## Apple review submission evidence
