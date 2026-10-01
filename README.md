@@ -1,5 +1,7 @@
 # SignalWord
 
+<img src="assets/submission/brand-icon-1024.png" alt="SignalWord icon" width="96">
+
 [MIT license](LICENSE) · [Judge guide](JUDGE_GUIDE.md) · [Submission assets](assets/submission/README.md)
 
 A private phrase. A trusted response.
@@ -7,6 +9,14 @@ A private phrase. A trusted response.
 Need help to alert your people in difficult cases? SignalWord helps you reach the people you trust when unlocking your phone or navigating an app may not be practical. Trigger a discreet alert with Apple Vocal Shortcuts, notify up to three trusted contacts, share an optional location snapshot, use safety check-ins, and see exactly what has been sent, delivered, acknowledged and resolved.
 
 It is not an emergency-dispatch service, does not run an app-owned always-on microphone, does not receive the private phrase or ambient audio, and must not claim delivery or live location without evidence.
+
+## App preview
+
+| Understand and set up | Supporter appearance |
+| --- | --- |
+| <img src="assets/submission/understand-setup-1179x2556.png" alt="SignalWord setup preview explaining private alerts, consenting contacts and iOS Vocal Shortcuts" width="260"> | <img src="assets/submission/supporter-appearance-original.png" alt="SignalWord Supporter appearance showing Ocean and Lavender accents and Restore purchases" width="260"> |
+
+Setup and privacy guidance, alongside optional appearance customization. The setup image is an owner-provided preview prepared at 1179×2556; the supporter image retains its original dimensions. [View and download the images](assets/submission/README.md).
 
 ## Judge guide
 

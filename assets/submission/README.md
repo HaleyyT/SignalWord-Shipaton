@@ -1,6 +1,8 @@
 # Submission assets
 
 - [1024×1024 app icon](app-icon-1024.png), copied from the native app asset catalog.
+- [1024×1024 brand icon](brand-icon-1024.png), owner-provided and displayed in the main README.
+- [Understand/setup preview — 1179×2556](understand-setup-1179x2556.png), prepared from the owner-provided 1284×2778 image. Its proportions are preserved with five pixels of background padding in total. Only sizing and padding were changed; UI content was not redrawn.
 - [Supporter appearance screenshot](supporter-appearance-original.png): original owner-supplied app screenshot, 728×1446. It shows both themes, Restore purchases and Refresh purchase status. Supplemental gallery material; it does not meet the required 1179×2556 dimensions.
 - Apple review submission screenshot below: supplemental evidence only.
 
