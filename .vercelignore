@@ -1,0 +1,19 @@
+# The Vercel project builds only the recipient website. Keep native build
+# artifacts and unrelated backend sources out of the deployment upload.
+apps/ios/
+docs/
+supabase/
+operations/
+tests/
+.git/
+node_modules/
+**/node_modules/
+**/.build/
+**/DerivedData/
+.env
+.env.*
+**/.env
+**/.env.*
+*.pem
+*.p8
+*.mobileprovision

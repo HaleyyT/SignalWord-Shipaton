@@ -1,0 +1,161 @@
+name: Repository checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify repository baseline
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm audit --omit=dev --audit-level=high
+      - run: npm run verify
+      - run: npm run test:monitor:runtime
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser --workspace=@signalword/viewer
+      - run: npm run test:signup:browser
+      - run: npm run test:home:browser
+
+  functions:
+    name: Type-check Edge Functions
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Check every deployable function
+        run: >-
+          deno check
+          supabase/functions/user-api/index.ts
+          supabase/functions/public-event/index.ts
+          supabase/functions/contact-confirm/index.ts
+          supabase/functions/dispatch-deliveries/index.ts
+          supabase/functions/resend-webhook/index.ts
+          supabase/functions/deletion-status/index.ts
+          supabase/functions/operational-health/index.ts
+
+  secrets:
+    name: Scan committed history for secrets
+    permissions:
+      contents: read
+      pull-requests: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: "false"
+
+  database:
+    name: Verify migrations and RLS policies
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx supabase start
+      - run: npm run test:db
+      - run: npm run test:restore
+      - run: node scripts/test-contact-escalation-concurrency.mjs
+      - run: node scripts/test-check-in-concurrency.mjs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:integration
+      - name: Retain candidate manifest
+        run: npm run --silent release:manifest > /tmp/signalword-release-manifest.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: candidate-manifest
+          path: /tmp/signalword-release-manifest.json
+          retention-days: 30
+
+  ios:
+    name: Build iOS app and verify trigger core
+    runs-on: macos-15
+    # Includes package tests, builds, simulator startup, and all 23 UI tests.
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare offline simulator configuration
+        run: bash scripts/prepare-ios-ci-config.sh
+      - run: swift run --package-path apps/ios SignalWordCoreVerification
+      - run: swift test --package-path apps/ios
+      - name: Verify optional purchase behavior
+        run: swift test --package-path apps/ios/SupporterKit
+      - name: Build SignalWord for iOS Simulator
+        run: >-
+          xcodebuild -quiet
+          -xcconfig "$SIGNALWORD_XCCONFIG"
+          -project apps/ios/SignalWord.xcodeproj
+          -scheme SignalWord
+          -configuration Debug
+          -sdk iphonesimulator
+          -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO
+          build
+
+      - name: Test iOS application journeys
+        id: journeys
+        run: bash scripts/test-ios-ui.sh
+      - name: Retain iOS journey results
+        if: always() && steps.journeys.outputs.results != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-journeys
+          path: |
+            ${{ steps.journeys.outputs.results }}/Journey.xcresult
+            ${{ steps.journeys.outputs.results }}/summary.json
+          retention-days: 7
+
+  ios-crash-sdk:
+    name: Verify optional crash SDK and privacy filter
+    runs-on: macos-15
+    # Release linking, a Debug test build, and the full suite can exceed 35 minutes.
+    timeout-minutes: 45
+    env:
+      SIGNALWORD_WITH_SENTRY: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare offline simulator configuration
+        run: bash scripts/prepare-ios-ci-config.sh
+      - name: Test real SDK serialization and core behavior
+        run: swift test --package-path apps/ios
+      - name: Link SDK in Release simulator app
+        run: >-
+          xcodebuild -quiet -xcconfig "$SIGNALWORD_XCCONFIG" -project apps/ios/SignalWord.xcodeproj
+          -scheme SignalWord -configuration Release -sdk iphonesimulator
+          -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO build
+      - name: Verify application journeys with SDK linked
+        id: journeys
+        run: bash scripts/test-ios-ui.sh
+      - name: Retain SDK journey results
+        if: always() && steps.journeys.outputs.results != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-crash-sdk-journeys
+          path: |
+            ${{ steps.journeys.outputs.results }}/Journey.xcresult
+            ${{ steps.journeys.outputs.results }}/summary.json
+          retention-days: 7

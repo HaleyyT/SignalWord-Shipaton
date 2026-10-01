@@ -1,0 +1,13 @@
+{
+  "name": "signalword-dev-safety-authority",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-09-28",
+  "workers_dev": false,
+  "durable_objects": {
+    "bindings": [{ "name": "AUTHORITY", "class_name": "SafetyAuthority" }]
+  },
+  "r2_buckets": [
+    { "binding": "JOURNAL", "bucket_name": "signalword-dev-deletion-journal" }
+  ],
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["SafetyAuthority"] }]
+}

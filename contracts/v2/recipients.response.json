@@ -1,0 +1,1 @@
+[{"contactId":"82000000-0000-4000-8000-000000000001","name":"Sam","revoked":false,"scheduledAt":"2026-09-28T00:00:00Z","delivery":"delivered","acknowledgedAt":"2026-09-28T00:01:00Z"},{"contactId":"82000000-0000-4000-8000-000000000002","name":"Taylor","revoked":false,"scheduledAt":"2026-09-28T00:02:00Z","delivery":"queued"}]

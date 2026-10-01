@@ -1,0 +1,9 @@
+{
+  "name": "signalword-dev-monitor",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-09-28",
+  "workers_dev": false,
+  "triggers": {"crons": ["* * * * *"]},
+  "durable_objects": {"bindings": [{"name": "MONITOR", "class_name": "Monitor"}]},
+  "migrations": [{"tag": "v1", "new_sqlite_classes": ["Monitor"]}]
+}

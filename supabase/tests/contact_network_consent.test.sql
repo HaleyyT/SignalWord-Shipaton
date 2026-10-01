@@ -1,0 +1,45 @@
+begin;
+set local signalword.local_fixture='true';
+select no_plan();
+insert into auth.users(id,aud,role,email,raw_app_meta_data,raw_user_meta_data,created_at,updated_at)
+values('91000000-0000-4000-8000-000000000001','authenticated','authenticated','consent-network@example.test','{}','{}',now(),now());
+insert into public.profiles(id,display_name) values('91000000-0000-4000-8000-000000000001','Consent fixture');
+set local role service_role;
+select set_config('request.jwt.claim.role','service_role',true);
+select * from public.save_network_contact(null,'91000000-0000-4000-8000-000000000001','First','email',repeat('a',48),repeat('a',64),1,extensions.digest('network-first','sha256'),repeat('a',48),1,'fake');
+select * from public.save_network_contact(null,'91000000-0000-4000-8000-000000000001','Second','email',repeat('b',48),repeat('b',64),1,extensions.digest('network-second','sha256'),repeat('b',48),1,'fake');
+select * from public.save_network_contact(null,'91000000-0000-4000-8000-000000000001','Third','email',repeat('c',48),repeat('c',64),1,extensions.digest('network-third','sha256'),repeat('c',48),1,'fake');
+select * from public.save_network_contact(null,'91000000-0000-4000-8000-000000000001','Second','email',repeat('b',48),repeat('b',64),1,extensions.digest('retry-must-not-replace','sha256'),repeat('b',48),1,'fake');
+reset role;
+select is((select count(*) from public.trusted_contacts),3::bigint,'lost invitation response does not duplicate contacts');
+select is((select count(*) from public.contact_verification_deliveries),3::bigint,'retry does not produce duplicate invitation traffic');
+select is((select count(*) from public.trusted_contacts where status='confirmed'),0::bigint,'inviting never implies consent');
+set local role anon;
+select is(public.confirm_contact(extensions.digest('network-second','sha256')),true,'second person confirms own invitation');
+reset role;
+select is((select count(*) from public.trusted_contacts where status='confirmed'),1::bigint,'one confirmation cannot consent for other recipients');
+select set_config('request.jwt.claim.sub','91000000-0000-4000-8000-000000000001',true);
+set local role authenticated;
+select set_config('request.jwt.claim.role','authenticated',true);
+select lives_ok($$select public.contact_network('91000000-0000-4000-8000-000000000001',(select id from public.trusted_contacts where name='Second'),'everyone')$$,'confirmed recipient can become explicit primary');
+select is((select contact_name from public.get_my_contact('91000000-0000-4000-8000-000000000001')),'Second','old client sees newly selected primary');
+select throws_ok($$select public.contact_network('91000000-0000-4000-8000-000000000001',(select id from public.trusted_contacts where name='Third'),null)$$,'P0001','CONTACT_NOT_CONFIRMED','pending recipient cannot become primary');
+-- Exercise internal state transitions; direct-client denial is tested separately.
+reset role;
+select lives_ok($$select * from public.create_or_reuse_alert('91000000-0000-4000-8000-000000000001','93000000-0000-4000-8000-000000000001','test','manual',repeat('z',43),'fake',repeat('z',48),1,null)$$,'legacy TEST still accepts with multi-contact configuration');
+set local role authenticated;
+reset role;
+select is((select count(*) from public.alert_deliveries),1::bigint,'legacy client retains single-primary routing');
+select is((select count(*) from public.alert_events where kind='real'),0::bigint,'TEST does not create REAL work');
+select is((select destination_snapshot from public.alert_deliveries),repeat('b',48),'delivery snapshots the explicit primary destination');
+select id as replacement_id from public.trusted_contacts where name='First' \gset
+set local role service_role;
+select set_config('request.jwt.claim.role','service_role',true);
+select * from public.save_network_contact(:'replacement_id'::uuid,'91000000-0000-4000-8000-000000000001','Replacement','email',repeat('d',48),repeat('d',64),1,extensions.digest('replacement','sha256'),repeat('d',48),1,'fake');
+reset role;
+set local role anon;
+select is(public.confirm_contact(extensions.digest('network-first','sha256')),false,'replaced recipient invitation cannot be accepted');
+select is((select count(*) from public.get_public_event(extensions.digest(repeat('z',43),'sha256'))),1::bigint,'replacing another person preserves primary capability');
+reset role;
+select * from finish();
+rollback;

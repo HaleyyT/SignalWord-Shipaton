@@ -1,0 +1,17 @@
+{
+  "kind": "test",
+  "displayName": "Sample user",
+  "state": "active",
+  "triggeredAt": "2026-09-21T00:00:01Z",
+  "lastUpdatedAt": "2026-09-21T00:00:12Z",
+  "location": {
+    "latitude": -33.8687,
+    "longitude": 151.2094,
+    "horizontalAccuracyM": 12,
+    "capturedAt": "2026-09-21T00:00:12Z",
+    "freshness": "live"
+  },
+  "guidance": {
+    "summary": "Contact Sample user now. If you believe there is immediate danger, call the appropriate local emergency number."
+  }
+}

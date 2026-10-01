@@ -1,0 +1,26 @@
+{
+  "environment": "development",
+  "projectRef": "voepalyamwgenceawdvl",
+  "viewerOrigin": "https://www.signalword.app",
+  "app": {
+    "version": "1.0",
+    "build": "4",
+    "bundleId": "com.signalword.app",
+    "appGroup": "group.com.signalword.shared",
+    "minimumIOS": "18.0"
+  },
+  "turnstileSiteKey": "0x4AAAAAAFFb3ETKlwBxFCNF",
+  "deliveryProvider": "resend",
+  "features": {
+    "email": true,
+    "contactEscalation": true,
+    "checkInTimer": true,
+    "sms": false,
+    "professionalMonitoring": false
+  },
+  "apiContractVersions": [
+    1,
+    2
+  ],
+  "crashReporting": "disabled-pending-hosted-and-device-verification"
+}

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>SignalWord</title>
+  <rect width="64" height="64" rx="16" fill="#0B0D10"/>
+  <path
+    d="M14 17a7 7 0 0 1 7-7h22a7 7 0 0 1 7 7v19a7 7 0 0 1-7 7H31l-10 9v-9a7 7 0 0 1-7-7V17Z"
+    fill="#7A6FF0"
+  />
+  <path
+    d="M19 27h4l3-7 6 17 5-13 4 8 3-5h2"
+    fill="none"
+    stroke="#0B0D10"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="4.5"
+  />
+</svg>

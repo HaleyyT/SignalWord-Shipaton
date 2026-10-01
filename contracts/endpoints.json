@@ -1,0 +1,299 @@
+[
+  {
+    "method": "GET",
+    "path": "/v1/profile",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": null,
+    "response": "v1/profile",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "read-only",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "PUT",
+    "path": "/v1/profile",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": {
+      "displayName": "Fixture"
+    },
+    "response": "v1/profile",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "replace own display name",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "GET",
+    "path": "/v1/alerts/recovery",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": null,
+    "response": "v1/recovery",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "read-only",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "POST",
+    "path": "/v1/alerts",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": {
+      "kind": "test",
+      "triggerMethod": "manual",
+      "clientTriggeredAt": "2026-09-28T00:00:00Z"
+    },
+    "response": "v1/create-alert",
+    "status": 201,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "Idempotency-Key UUID; duplicate returns 200; TEST/REAL isolated",
+    "rateLimit": "database alert limits; existing-key retries preserved",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "POST",
+    "path": "/v2/alerts",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": {
+      "kind": "test",
+      "triggerMethod": "manual",
+      "clientTriggeredAt": "2026-09-28T00:00:00Z"
+    },
+    "response": "v1/create-alert",
+    "status": 201,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "Idempotency-Key UUID; duplicate returns 200; TEST/REAL isolated",
+    "rateLimit": "database alert limits; existing-key retries preserved",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "POST",
+    "path": "/v1/contacts",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": {
+      "name": "Fixture",
+      "email": "fixture@example.test"
+    },
+    "response": "v1/contact",
+    "status": 202,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "replace legacy primary; repeat invitation is rate limited",
+    "rateLimit": "per-user and fingerprint invitation budget",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "GET",
+    "path": "/v1/contact",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": null,
+    "response": "v1/contact",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "read-only",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "DELETE",
+    "path": "/v1/contacts/00000000-0000-4000-8000-000000000020",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": null,
+    "response": "v1/disable-contact",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "repeat withdrawal; durable journal before success",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "GET",
+    "path": "/v1/alerts/00000000-0000-4000-8000-000000000020",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": null,
+    "response": "v1/alert-status",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "read-only",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "POST",
+    "path": "/v1/alerts/00000000-0000-4000-8000-000000000020/locations",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": {
+      "location": {
+        "latitude": -33.8,
+        "longitude": 151.2,
+        "horizontalAccuracyM": 20,
+        "capturedAt": "2026-09-28T00:00:00Z"
+      }
+    },
+    "response": "v1/append-location",
+    "status": 202,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "append timestamped snapshot",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "POST",
+    "path": "/v1/alerts/00000000-0000-4000-8000-000000000020/resolve",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": null,
+    "response": "v1/resolve-alert",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "repeat resolution safe; no repeated recipient batch",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "DELETE",
+    "path": "/v1/data",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": null,
+    "response": "v1/delete-data",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "X-Deletion-Receipt capability; recover after lost response",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "GET",
+    "path": "/v2/contact-network",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": null,
+    "response": "v2/contact-network",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "read-only",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "PUT",
+    "path": "/v2/contact-network",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": {
+      "policy": "everyone"
+    },
+    "response": "v2/contact-network",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "replace own routing settings",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "POST",
+    "path": "/v2/contacts",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": {
+      "name": "Fixture",
+      "email": "fixture@example.test"
+    },
+    "response": "v1/contact",
+    "status": 202,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "contact identity or destination reuse; invitations bounded",
+    "rateLimit": "per-user and fingerprint invitation budget",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "POST",
+    "path": "/v2/contacts/00000000-0000-4000-8000-000000000020",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": {
+      "name": "Fixture",
+      "email": "fixture@example.test"
+    },
+    "response": "v1/contact",
+    "status": 202,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "contact identity or destination reuse; invitations bounded",
+    "rateLimit": "per-user and fingerprint invitation budget",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "GET",
+    "path": "/v2/alerts/00000000-0000-4000-8000-000000000020/recipients",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": null,
+    "response": "v2/recipients",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "read-only",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "GET",
+    "path": "/v2/check-in",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": null,
+    "response": "v2/check-in",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "read-only",
+    "rateLimit": "ownership/availability only",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  },
+  {
+    "method": "POST",
+    "path": "/v2/check-in",
+    "auth": "verified user JWT",
+    "identity": "server-authenticated user; caller ID never accepted from body",
+    "request": {
+      "action": "start",
+      "minutes": 15
+    },
+    "response": "v2/check-in",
+    "status": 200,
+    "error": "ApiError envelope: code, message, retryable, requestId; 429 Retry-After",
+    "idempotency": "Idempotency-Key UUID; one active timer per user",
+    "rateLimit": "database command and timer limits",
+    "permission": "caller-scoped reads; service-only delivery creation",
+    "compatibility": "v1 retained; v2 additive"
+  }
+]

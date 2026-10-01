@@ -1,0 +1,39 @@
+{
+  "name": "signalword",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A privacy-first personal safety alert system.",
+  "workspaces": [
+    "apps/viewer"
+  ],
+  "packageManager": "npm@10.9.2",
+  "engines": {
+    "node": ">=22.0.0 <23"
+  },
+  "scripts": {
+    "check": "node scripts/verify-repository.mjs && node scripts/verify-contracts.mjs && node scripts/security-audit.mjs",
+    "day1:preflight": "node scripts/day1-preflight.mjs",
+    "day1:preflight:strict": "node scripts/day1-preflight.mjs --strict",
+    "release:preflight": "node scripts/release-preflight.mjs",
+    "test:db": "node scripts/test-database.mjs && node scripts/test-restore-safeupdate.mjs",
+    "test": "node --test tests/*.test.mjs && npm run test --workspace=@signalword/viewer",
+    "test:functions": "node --test tests/functions.test.mjs",
+    "build": "npm run build --workspace=@signalword/viewer",
+    "verify": "npm run check && npm run test && npm run build",
+    "release:hosted": "node scripts/hosted-preflight.mjs",
+    "test:ios:ui": "bash scripts/test-ios-ui.sh",
+    "test:purchases": "swift test --package-path apps/ios/SupporterKit",
+    "monitor:operations": "node scripts/check-operations.mjs",
+    "test:signup:browser": "node apps/viewer/e2e/signup.mjs",
+    "test:home:browser": "node apps/viewer/e2e/home.mjs",
+    "release:manifest": "node scripts/release-manifest.mjs",
+    "release:configuration": "node scripts/release-manifest.mjs --check-environment",
+    "test:restore": "node scripts/test-restore-authority.mjs",
+    "test:integration": "node scripts/test-local-journey.mjs",
+    "test:monitor:runtime": "node scripts/test-monitor-runtime.mjs"
+  },
+  "devDependencies": {
+    "supabase": "2.117.0"
+  }
+}

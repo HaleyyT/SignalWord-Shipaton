@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /events/
+Disallow: /confirm/
+Disallow: /v1/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /onboarding/

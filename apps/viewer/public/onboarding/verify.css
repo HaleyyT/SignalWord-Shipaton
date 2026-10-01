@@ -1,0 +1,7 @@
+:root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+body { margin: 0; padding: 24px; }
+main { max-width: 32rem; margin: 2rem auto; }
+h1 { font-size: 1.8rem; line-height: 1.2; }
+p { line-height: 1.5; }
+button { min-height: 44px; padding: 8px 20px; font: inherit; cursor: pointer; }
+#challenge { min-height: 80px; }

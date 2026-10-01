@@ -1,0 +1,48 @@
+# macOS and editors
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.p8
+*.mobileprovision
+*.xcconfig.local
+
+# JavaScript
+node_modules/
+coverage/
+dist/
+.vite/
+npm-debug.log*
+
+# Xcode and SwiftPM
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+.swiftpm/
+.build/
+
+# Supabase local runtime
+supabase/.branches/
+supabase/.temp/
+supabase/.env
+
+# Local isolated feature worktrees
+.worktrees/
+
+# Local Vercel project link and deployment cache
+.vercel/
+
+# Private local planning and release documents
+/docs/
+/draft/
+
+# Private submission preparation
+/.devpost-hackathon-state.json
+/devpost-submission.md

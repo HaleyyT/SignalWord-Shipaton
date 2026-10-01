@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UILaunchScreen</key>
+	<dict><key>UIColorName</key><string>LaunchBackground</string></dict>
+	<key>SignalWordAppGroupIdentifier</key>
+	<string>group.com.signalword.shared</string>
+	<key>SignalWordCrashReportingEnabled</key>
+	<string>$(SIGNALWORD_CRASH_REPORTING_ENABLED)</string>
+	<key>SignalWordRevenueCatAPIKey</key>
+	<string>$(SIGNALWORD_REVENUECAT_PUBLIC_API_KEY)</string>
+	<key>SignalWordSentryDSN</key>
+	<string>$(SIGNALWORD_SENTRY_DSN)</string>
+	<key>SignalWordSupabasePublishableKey</key>
+	<string>$(SIGNALWORD_SUPABASE_PUBLISHABLE_KEY)</string>
+	<key>SignalWordSupabaseURL</key>
+	<string>$(SIGNALWORD_SUPABASE_URL)</string>
+	<key>SignalWordTurnstileSiteKey</key>
+	<string>$(SIGNALWORD_TURNSTILE_SITE_KEY)</string>
+	<key>SignalWordUserAPIURL</key>
+	<string>$(SIGNALWORD_USER_API_URL)</string>
+	<key>SignalWordVerificationURL</key>
+	<string>$(SIGNALWORD_VERIFICATION_URL)</string>
+</dict>
+</plist>

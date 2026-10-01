@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow"><title>Reset your SignalWord password</title><link rel="stylesheet" href="/auth/recovery.css"><script type="module" src="/auth/recovery.js"></script></head>
+<body><main><a href="/">SignalWord</a><h1>Reset your password</h1><p id="status" role="status" aria-live="polite">Loading secure account recovery…</p>
+<form id="request" hidden><label for="email">Account email</label><input id="email" type="email" autocomplete="email" required maxlength="254"><div id="challenge"></div><button id="send" disabled>Send reset email</button></form>
+<form id="reset" hidden><label for="password">New password</label><input id="password" type="password" autocomplete="new-password" required minlength="8" maxlength="4096"><label for="confirmation">Repeat new password</label><input id="confirmation" type="password" autocomplete="new-password" required minlength="8" maxlength="4096"><button id="update">Set new password</button></form>
+<button id="fresh" hidden>Request a fresh link</button><p>Your account and confirmed contacts are kept. Return to SignalWord and sign in after resetting your password.</p><a href="/support">Contact support</a></main></body></html>

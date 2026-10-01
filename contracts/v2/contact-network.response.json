@@ -1,0 +1,1 @@
+{"policy":"primary_then_others","contacts":[{"contactId":"82000000-0000-4000-8000-000000000001","name":"Sam","channel":"email","status":"confirmed","primary":true},{"contactId":"82000000-0000-4000-8000-000000000002","name":"Taylor","channel":"email","status":"pending","primary":false}]}

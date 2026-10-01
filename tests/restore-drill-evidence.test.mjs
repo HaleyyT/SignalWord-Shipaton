@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {measureRestore} from '../scripts/restore-drill-evidence.mjs';
+const input={sourceProject:'voepalyamwgenceawdvl',targetProject:'abcdefghijklmnopqrst',outageStartedAt:'2026-09-29T00:15:00Z',latestRecoveredAcknowledgedAt:'2026-09-29T00:00:00Z',safeServiceReadyAt:'2026-09-29T01:15:00Z'};
+for(const key of ['sourceQuarantined','restoredSchedulesDisabled','noPendingNetworkRequests','independentJournalCovered','duplicateReplayMatched','databaseReceiptMatched','deletedAccessDenied','withdrawnAccessDenied','historicalWorkCancelled','providerOutcomesReconciled','noCloneProviderSends','routingIsolated'])input[key]=true;
+test('restore measures inclusive RPO/RTO limits only with all safety evidence',()=>{assert.equal(measureRestore(input).passed,true);for(const key of Object.keys(input).filter(k=>input[k]===true)){assert.equal(measureRestore({...input,[key]:false}).passed,false);}});
+test('slow or stale recovery remains failed',()=>{assert.equal(measureRestore({...input,safeServiceReadyAt:'2026-09-29T01:15:01Z'}).passed,false);assert.equal(measureRestore({...input,latestRecoveredAcknowledgedAt:'2026-09-28T23:59:59Z'}).passed,false);});
+test('invalid target and timestamps are rejected; private extras never reach report',()=>{assert.throws(()=>measureRestore({...input,targetProject:input.sourceProject}));assert.throws(()=>measureRestore({...input,outageStartedAt:'bad'}));assert.throws(()=>measureRestore({...input,latestRecoveredAcknowledgedAt:'2026-09-30T00:00:00Z'}));assert.ok(!JSON.stringify(measureRestore({...input,token:'sensitive'})).includes('sensitive'));});

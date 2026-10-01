@@ -1,0 +1,15 @@
+{
+  "kind": "test",
+  "triggerMethod": "vocalShortcut",
+  "clientTriggeredAt": "2026-09-21T00:00:00Z",
+  "device": {
+    "batteryPercent": 62,
+    "lowPowerMode": false
+  },
+  "location": {
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "horizontalAccuracyM": 18.4,
+    "capturedAt": "2026-09-21T00:00:00Z"
+  }
+}

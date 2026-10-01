@@ -1,0 +1,28 @@
+name: Operational health
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * *'
+permissions:
+  contents: read
+concurrency:
+  group: signalword-operational-health
+  cancel-in-progress: false
+jobs:
+  health:
+    # Enrollment stays blocked until configuration and a real alert drill pass.
+    if: vars.SIGNALWORD_MONITORING_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check aggregate health and notify the operator on failure
+        env:
+          SIGNALWORD_BACKEND_ORIGIN: ${{ vars.SIGNALWORD_BACKEND_ORIGIN }}
+          SIGNALWORD_MONITOR_KEY: ${{ secrets.SIGNALWORD_MONITOR_KEY }}
+          SIGNALWORD_OPERATOR_WEBHOOK: ${{ secrets.SIGNALWORD_OPERATOR_WEBHOOK }}
+          SIGNALWORD_MONITOR_HEARTBEAT_URL: ${{ secrets.SIGNALWORD_MONITOR_HEARTBEAT_URL }}
+        run: node scripts/check-operations.mjs
