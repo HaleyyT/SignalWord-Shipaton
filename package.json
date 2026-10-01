@@ -34,6 +34,6 @@
     "test:monitor:runtime": "node scripts/test-monitor-runtime.mjs"
   },
   "devDependencies": {
-    "supabase": "2.117.0"
+    "supabase": "2.118.0"
   }
 }
