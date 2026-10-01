@@ -84,7 +84,7 @@ jobs:
       - run: npm run test:integration
       - name: Retain candidate manifest
         run: npm run --silent release:manifest > /tmp/signalword-release-manifest.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: candidate-manifest
           path: /tmp/signalword-release-manifest.json
@@ -120,7 +120,7 @@ jobs:
         run: bash scripts/test-ios-ui.sh
       - name: Retain iOS journey results
         if: always() && steps.journeys.outputs.results != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ios-journeys
           path: |
@@ -152,7 +152,7 @@ jobs:
         run: bash scripts/test-ios-ui.sh
       - name: Retain SDK journey results
         if: always() && steps.journeys.outputs.results != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ios-crash-sdk-journeys
           path: |
